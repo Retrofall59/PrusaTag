@@ -1,0 +1,11 @@
+<resources>
+    <color name="prusa_orange">#F5792A</color>
+    <color name="prusa_gris_fonce">#3D3D3D</color>
+    <color name="fond_sombre">#12141A</color>
+    <color name="carte_blanc">#FFFFFF</color>
+    <color name="texte_principal">#1A2E2C</color>
+    <color name="texte_secondaire">#5C6E6C</color>
+    <color name="texte_clair">#FFFFFF</color>
+    <color name="bordure_legere">#D9E2E1</color>
+    <color name="attention">#FF6A13</color>
+</resources>
