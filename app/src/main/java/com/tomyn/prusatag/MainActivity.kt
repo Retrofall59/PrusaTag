@@ -1,11 +1,16 @@
 package com.tomyn.prusatag
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.nfc.NdefRecord
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         "gtin", "brand_specific_instance_id"
     )
 
+    private var dernierRapportTexte: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,6 +52,11 @@ class MainActivity : AppCompatActivity() {
         texteMateriau = findViewById(R.id.texteMateriau)
         texteMarque = findViewById(R.id.texteMarque)
         texteDetails = findViewById(R.id.texteDetails)
+
+        findViewById<ImageButton>(R.id.boutonParametres).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+        findViewById<Button>(R.id.boutonCopier).setOnClickListener { copierResultats() }
 
         traiterIntentEventuel(intent)
     }
@@ -143,8 +155,13 @@ class MainActivity : AppCompatActivity() {
             (carreCouleur.background as? GradientDrawable)?.setColor(Color.rgb(r, g, b))
         }
 
+        val champsAAfficher = if (GestionnaireParametres.lireVueDetaillee(this)) {
+            nomsChampsTechniques + nomsChampsEssentiels
+        } else {
+            nomsChampsEssentiels
+        }
         val details = StringBuilder()
-        for (nomChamp in nomsChampsAffiches) {
+        for (nomChamp in champsAAfficher) {
             val v = valeur(nomChamp) ?: continue
             val texteValeur = when {
                 nomChamp == "tags" -> (v as? List<Any?>)
@@ -162,7 +179,19 @@ class MainActivity : AppCompatActivity() {
         if (uri != null) details.appendLine("\nurl : $uri")
         texteDetails.text = details.toString().trim()
 
+        dernierRapportTexte = "${texteMateriau.text}\n${texteMarque.text}\n\n${texteDetails.text}"
+
         zoneInvite.visibility = android.view.View.GONE
         zoneResultat.visibility = android.view.View.VISIBLE
+    }
+
+    private fun copierResultats() {
+        if (dernierRapportTexte.isEmpty()) {
+            Toast.makeText(this, "Aucun résultat à copier, scanne d'abord un tag.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val gestionnaire = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        gestionnaire.setPrimaryClip(ClipData.newPlainText("Résultat PrusaTag", dernierRapportTexte))
+        Toast.makeText(this, "Copié !", Toast.LENGTH_SHORT).show()
     }
 }
