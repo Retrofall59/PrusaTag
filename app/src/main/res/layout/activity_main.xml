@@ -35,6 +35,20 @@
             android:textStyle="bold"
             android:textColor="@color/texte_clair" />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/boutonParametres"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_parametres"
+            android:contentDescription="Paramètres"
+            app:tint="@color/texte_clair" />
+
     </LinearLayout>
 
     <!-- Invite au scan, visible tant qu'aucun tag n'a ete lu -->
@@ -156,6 +170,16 @@
                     android:text="" />
 
             </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/boutonCopier"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Copier les résultats"
+                android:textAllCaps="false"
+                android:textColor="@color/texte_clair"
+                android:background="@drawable/degrade_entete" />
 
         </LinearLayout>
 

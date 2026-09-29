@@ -20,14 +20,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var texteMarque: TextView
     private lateinit var texteDetails: TextView
 
-    private val nomsChampsAffiches = listOf(
-        "gtin", "brand_specific_instance_id", "manufactured_date",
+    private val nomsChampsEssentiels = listOf(
+        "manufactured_date",
         "nominal_netto_full_weight", "actual_netto_full_weight", "empty_container_weight",
         "min_print_temperature", "max_print_temperature", "preheat_temperature",
         "min_bed_temperature", "max_bed_temperature",
         "min_chamber_temperature", "max_chamber_temperature", "chamber_temperature",
         "container_width", "container_outer_diameter", "container_inner_diameter", "container_hole_diameter",
         "nominal_full_length", "actual_full_length", "density", "tags"
+    )
+
+    private val nomsChampsTechniques = listOf(
+        "gtin", "brand_specific_instance_id"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +57,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun traiterIntentEventuel(intent: android.content.Intent?) {
         if (intent == null) return
-        if (intent.action != android.nfc.NfcAdapter.ACTION_TECH_DISCOVERED) return
+        val actionsAcceptees = setOf(
+            android.nfc.NfcAdapter.ACTION_TECH_DISCOVERED,
+            android.nfc.NfcAdapter.ACTION_NDEF_DISCOVERED
+        )
+        if (intent.action !in actionsAcceptees) return
 
         @Suppress("DEPRECATION")
         val tag = intent.getParcelableExtra<Tag>(android.nfc.NfcAdapter.EXTRA_TAG) ?: return

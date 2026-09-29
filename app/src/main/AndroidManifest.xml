@@ -25,7 +25,21 @@
             <meta-data
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_tech_filter" />
+            <!-- L'appli officielle Prusa declare tres probablement ce meme filtre NDEF+MIME sur ses
+                 propres tags, ce qui la rend prioritaire sur notre TECH_DISCOVERED seul (signale par
+                 jcjames_13009 sur le forum : l'appli Prusa s'ouvrait systematiquement a la place de
+                 PrusaTag). En declarant le meme filtre, Android proposera un choix au scan plutot que
+                 d'imposer une appli. -->
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.openprinttag" />
+            </intent-filter>
         </activity>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
 
     </application>
 

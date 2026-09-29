@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1 (build 2)
+
+- Corrige : au scan d'une bobine, c'est l'appli officielle Prusa (déjà installée) qui s'ouvrait systématiquement à la place de PrusaTag. Cause : l'appli Prusa déclare très probablement un filtre NDEF précis sur le type `application/vnd.openprinttag` (son propre format), plus prioritaire côté Android que notre filtre générique `TECH_DISCOVERED` seul. PrusaTag déclare maintenant le même filtre : Android proposera un choix entre les deux applis au scan, au lieu d'imposer Prusa à chaque fois. Signalé par jcjames_13009 sur le forum (premier vrai test sur une bobine Prusament).
+
 ## v1.0 (build 1)
 
 Première version.
