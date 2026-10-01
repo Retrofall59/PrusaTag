@@ -35,6 +35,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="application/vnd.openprinttag" />
             </intent-filter>
+            <!-- Insuffisant seul (v1.2) : le tag contient DEUX enregistrements NDEF, le lien
+                 https://3dtag.org/s/... D'ABORD, puis les donnees OpenPrintTag ensuite. Android
+                 resout le dispatch sur le PREMIER enregistrement qu'une appli sait gerer : l'appli
+                 Prusa officielle repond au lien et gagne avant meme qu'Android regarde le second
+                 enregistrement (confirme par jcjames_13009 : une fois l'appli Prusa desinstallee,
+                 c'est le navigateur qui s'ouvre sur ce lien, jamais PrusaTag). On fait maintenant
+                 aussi concurrence sur le lien lui-meme, pour etre en lice des le premier
+                 enregistrement et obtenir le choix entre applis plutot qu'un dispatch silencieux. -->
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="https" android:host="3dtag.org" />
+            </intent-filter>
         </activity>
 
         <activity

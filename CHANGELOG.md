@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3 (build 4)
+
+**Corrige pour de bon le conflit avec l'appli officielle Prusa** (la v1.2 n'avait réglé qu'une partie du problème).
+- Cause complète : le tag contient deux enregistrements NDEF, le lien `https://3dtag.org/s/...` en premier, puis les données OpenPrintTag ensuite. Android résout le dispatch sur le **premier** enregistrement qu'une application sait gérer — l'appli Prusa officielle répond au lien et l'emporte avant même qu'Android examine le second enregistrement, celui que visait notre filtre v1.2. Confirmé par jcjames_13009 : après désinstallation de l'appli Prusa, c'est le navigateur qui s'ouvrait sur ce lien, jamais PrusaTag.
+- PrusaTag fait maintenant aussi concurrence directement sur ce lien (`3dtag.org`), pas seulement sur le type de données OpenPrintTag : Android devrait désormais proposer un choix entre les deux applis dès le premier enregistrement.
+
 ## v1.2 (build 3)
 
 **Corrige l'échec de compilation de la v1.1** (`Unresolved reference: nomsChampsAffiches`). Du travail sur le menu Paramètres, mis en pause en cours de route pour revenir sur BambuRfidReader, avait été livré à moitié fini. Terminé proprement cette fois :
